@@ -84,3 +84,19 @@ def parse_multi_instance_graph(path: str):
             i += 1
 
     return instances
+    
+    
+def parse_multi_instance_bin_packing(path: str):
+    """
+    Parse file into list of (instance_id, n_items, item_sizes, bin_capacity)
+    Each instance starts with `c` and `p edge` lines.
+    """
+    instances = []
+    with open(path) as f:
+        lines = [ln.strip() for ln in f if ln.strip()]
+
+    i = 0
+    for temp_line in lines:
+        line = [int(line) for line in temp_line.split(" ")]
+        instances.append(line)
+    return instances
