@@ -46,8 +46,9 @@ class BinPacking(BinPackingAbstractClass):
     def binpacking_backtracing(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [[1,4],[1,5]]
+        pass
     
+    # Function to generate subsets for the jar
     @staticmethod
     def generate_subsets(items):
         if not items:
@@ -82,4 +83,4 @@ class BinPacking(BinPackingAbstractClass):
     def binpacking_bestcase(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [[1,4]]
+        pass
