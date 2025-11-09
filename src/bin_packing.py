@@ -29,8 +29,6 @@ instance_id,bin_capacity,bins_array,method,time_taken
 
 from typing import List
 
-
-
 from src.helpers.bin_packing_helper import BinPackingAbstractClass
 
 
@@ -44,15 +42,33 @@ class BinPacking(BinPackingAbstractClass):
     """
 
     def binpacking_backtracing(
-        self, bin_capacity: int, clauses: List[int]
+            self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        pass
-    
+        combo = []
+        cur_combo = []
+
+        def backtracker(remaining_capacity: int, available_clauses: List[int]):
+            if remaining_capacity == 0:
+                combo.append(cur_combo.copy())
+                return
+            elif remaining_capacity < 0 or len(available_clauses) == 0:
+                return
+
+            cur_clause = available_clauses[0]
+            cur_combo.append(cur_clause)
+            backtracker(remaining_capacity - cur_clause, available_clauses[1:])
+            cur_combo.pop()
+
+            backtracker(remaining_capacity, available_clauses[1:])
+
+        backtracker(bin_capacity, clauses)
+        return combo
+
     # Function to generate subsets for the jar
     @staticmethod
     def generate_subsets(items):
         if not items:
-            return [[]]              # base case
+            return [[]]  # base case
 
         first = items[0]
         rest = items[1:]
@@ -66,7 +82,7 @@ class BinPacking(BinPackingAbstractClass):
         return subsets_without_first + subsets_with_first
 
     def binpacking_bruteforce(
-        self, bin_capacity: int, clauses: List[int]
+            self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
         subsets = self.generate_subsets(clauses)
         combo = []
@@ -76,11 +92,11 @@ class BinPacking(BinPackingAbstractClass):
         return combo
 
     def binpacking_simple(
-        self, bin_capacity: int, clauses: List[int]
+            self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        pass
+        return [1, 2]
 
     def binpacking_bestcase(
-        self, bin_capacity: int, clauses: List[int]
+            self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        pass
+        return [1, 2]
