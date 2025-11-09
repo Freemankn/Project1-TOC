@@ -29,6 +29,8 @@ instance_id,bin_capacity,bins_array,method,time_taken
 
 from typing import List
 
+
+
 from src.helpers.bin_packing_helper import BinPackingAbstractClass
 
 
@@ -44,27 +46,33 @@ class BinPacking(BinPackingAbstractClass):
     def binpacking_backtracing(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [[1,4]]
+        return [[1,4],[1,5]]
     
-    # def generate_subsets(items):
-    #     if not items:
-    #         return [[]]              # base case
+    @staticmethod
+    def generate_subsets(items):
+        if not items:
+            return [[]]              # base case
 
-    #     first = items[0]
-    #     rest = items[1:]
+        first = items[0]
+        rest = items[1:]
 
-    #     subsets_without_first = generate_subsets(rest)
+        subsets_without_first = BinPacking.generate_subsets(rest)
 
-    #     subsets_with_first = []
-    #     for subset in subsets_without_first:
-    #         subsets_with_first.append([first] + subset)
+        subsets_with_first = []
+        for subset in subsets_without_first:
+            subsets_with_first.append([first] + subset)
 
-    #     return subsets_without_first + subsets_with_first
+        return subsets_without_first + subsets_with_first
 
     def binpacking_bruteforce(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [[1,4]]
+        subsets = self.generate_subsets(clauses)
+        combo = []
+        for bin in subsets:
+            if sum(bin) == bin_capacity:
+                combo.append(bin)
+        return combo
 
     def binpacking_simple(
         self, bin_capacity: int, clauses: List[int]
