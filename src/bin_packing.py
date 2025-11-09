@@ -105,4 +105,14 @@ class BinPacking(BinPackingAbstractClass):
     def binpacking_bestcase(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [1,2,4]
+        bestCases = [float('inf'), []] #[the closest distance to target, subsets with the closest distance to target]
+        subsets = self.generate_subsets(clauses) #get all the subsets
+        for bin in subsets: #terate through subsets
+            distanceFromTarget = abs(sum(bin)-bin_capacity) #get how close the subset is to the target
+            if distanceFromTarget == bestCases[0]: #if the distance is equal to our best distance so far...
+                bestCases[1].append(bin) #add it to the list of subsets with the closest distance to target
+            elif distanceFromTarget < bestCases[0]: #if the distance is less than out best distance so far
+                bestCases[0] = distanceFromTarget #update our best distance from the the target
+                bestCases[1] = [bin] #start a new list of subsets with the new closest distance to the target, starting with the current subset
+        return bestCases[1] #return the list of best subsets
+
