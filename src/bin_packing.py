@@ -64,6 +64,8 @@ class BinPacking(BinPackingAbstractClass):
             backtracker(remaining_capacity, available_clauses[1:])
 
         backtracker(bin_capacity, clauses)
+        if len(combo) == 0:
+            return [[0]]
         return combo
     
     # Function to generate subsets for the jar
@@ -91,12 +93,14 @@ class BinPacking(BinPackingAbstractClass):
         for bin in subsets:
             if sum(bin) == bin_capacity:
                 combo.append(bin)
+        if len(combo) == 0:
+            return [[0]]
         return combo
 
     def binpacking_simple(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        return [1,2,4]
+        pass
 
     def binpacking_bestcase(
         self, bin_capacity: int, clauses: List[int]
