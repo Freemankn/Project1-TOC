@@ -1,15 +1,26 @@
 import csv
 import matplotlib.pyplot as plt
 
+# 1) Build size map from input file
+sizes_by_instance = {}
+with open("../input/binpacking.txt") as f:
+    for idx, line in enumerate(f):
+        parts = line.split()
+        if not parts:
+            continue
+        instance_size = len(parts) - 1  # capacity + items → items count = len-1
+        sizes_by_instance[str(idx)] = instance_size
+
+# 2) Prepare lists for plotting
 sizes_solved = []
 times_solved = []
 
 sizes_unsolved = []
 times_unsolved = []
 
+# 3) Read results CSV
 with open("../results/brute_force_binpacking_sat_solver_results.csv", newline="") as f:
     reader = csv.DictReader(f)
-    # To avoid multi-row duplicates per instance, track first time seen
     seen = set()
 
     for row in reader:
@@ -18,17 +29,14 @@ with open("../results/brute_force_binpacking_sat_solver_results.csv", newline=""
             continue
         seen.add(inst_id)
 
-        bin_capacity = int(row["bin_capacity"])
-        bins_array_str = row["bins_array"]
+        instance_id_str = row["instance_id"]
         time_taken = float(row["time_taken"])
+        bins_array_str = row["bins_array"].strip()
 
-        # interpret bins_array string; "[]" means no solution
-        has_solution = bins_array_str.strip() != "[]"
+        has_solution = bins_array_str != "[0]"
 
-        # define instance size; you can also look it up from input file
-        # simplest: use bin_capacity, or number_of_items from a separate map
-        # for now, let's say size = bin_capacity (or precomputed length)
-        instance_size = bin_capacity  # or replace with real size
+        # 🔹 Here is the important part: get size from the map
+        instance_size = sizes_by_instance[instance_id_str]
 
         if has_solution:
             sizes_solved.append(instance_size)
@@ -37,12 +45,12 @@ with open("../results/brute_force_binpacking_sat_solver_results.csv", newline=""
             sizes_unsolved.append(instance_size)
             times_unsolved.append(time_taken)
 
-# Now plot
+# 4) Plot
 plt.figure()
 plt.scatter(sizes_solved, times_solved, color="green", label="Solution exists")
 plt.scatter(sizes_unsolved, times_unsolved, color="red", label="No solution")
 
-plt.xlabel("Problem size (e.g., number of items)")
+plt.xlabel("Problem size (number of items)")
 plt.ylabel("Time taken (seconds)")
 plt.title("Brute Force Bin-Packing: Time vs Problem Size")
 plt.legend()
