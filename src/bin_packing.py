@@ -46,25 +46,29 @@ class BinPacking(BinPackingAbstractClass):
     def binpacking_backtracing(
             self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
+        # Keeps track of current backtracking positions and passing conditions
         combo = []
         cur_combo = []
 
         def backtracker(remaining_capacity: int, available_clauses: List[int]):
-            if remaining_capacity == 0:
+            # Base Cases
+            if remaining_capacity == 0: # Passing
                 combo.append(cur_combo.copy())
                 return
-            elif remaining_capacity < 0 or len(available_clauses) == 0:
+            elif remaining_capacity < 0 or len(available_clauses) == 0: # Failing
                 return
 
+            # Branch checks current clause
             cur_clause = available_clauses[0]
             cur_combo.append(cur_clause)
             backtracker(remaining_capacity - cur_clause, available_clauses[1:])
             cur_combo.pop()
 
+            # Branch goes on without checking first clause
             backtracker(remaining_capacity, available_clauses[1:])
 
-        backtracker(bin_capacity, clauses)
-        if len(combo) == 0:
+        backtracker(bin_capacity, clauses) # First call to backtrack
+        if len(combo) == 0: # No passing Cases
             return [[0]]
         return combo
     
