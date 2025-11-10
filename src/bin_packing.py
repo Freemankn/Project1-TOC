@@ -87,17 +87,17 @@ class BinPacking(BinPackingAbstractClass):
         for subset in subsets_without_first:
             subsets_with_first.append([first] + subset)
 
-        return subsets_without_first + subsets_with_first
+        return subsets_without_first + subsets_with_first # returned set of subsets.
 
     def binpacking_bruteforce(
         self, bin_capacity: int, clauses: List[int]
     ) -> List[List[int]]:
-        subsets = self.generate_subsets(clauses)
+        subsets = self.generate_subsets(clauses) # get all subsets
         combo = []
         for bin in subsets:
-            if sum(bin) == bin_capacity:
+            if sum(bin) == bin_capacity: # checks if sum of bin is equal to the targer
                 combo.append(bin)
-        if len(combo) == 0:
+        if len(combo) == 0: # if no bin works, return a [[0]] to signify that it's no solution.
             return [[0]]
         return combo
 
