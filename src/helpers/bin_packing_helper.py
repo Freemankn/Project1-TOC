@@ -13,7 +13,7 @@ class BinPackingAbstractClass(ABC):
 
     def __init__(self, 
                     cnf_file_input_path: str,
-                    result_file_name:str = "sat_solver_results",
+                    result_file_name:str = "",
                     results_folder_path: str = RESULTS_FOLDER):
         self.cnf_file_input_path = cnf_file_input_path
         self.results_folder_path = results_folder_path
@@ -50,7 +50,7 @@ class BinPackingAbstractClass(ABC):
         # Write to CSV
         dir_name, file_name = os.path.split(self.cnf_file_input_path)
         file_name_only, ext = os.path.splitext(file_name)
-        temp_result = os.path.join(self.results_folder_path, f"{sub_problem}_{file_name_only}_{self.result_file_name}.csv")
+        temp_result = os.path.join(self.results_folder_path, f"output_{sub_problem}_{file_name_only}{self.result_file_name}.csv")
         with open(temp_result, "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(["instance_id", "bin_capacity", "bins_array", "method", "time_taken"])

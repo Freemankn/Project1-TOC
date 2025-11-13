@@ -14,11 +14,11 @@ txt_input_path = 'input'
 
 # Files
 csv_files = [
-    'best_case_binpacking_sat_solver_results.csv',
-    'brute_force_binpacking_sat_solver_results.csv',
-    'btracking_binpacking_sat_solver_results.csv'
+    'best_case_check_Twin_Track_Trio.csv',
+    'brute_force_check_Twin_Track_Trio.csv',
+    'btracking_check_Twin_Track_Trio.csv'
 ]
-txt_file = 'binpacking.txt'
+txt_file = 'check_Twin_Track_Trio.txt'
 
 coinsKnapsack = []  # Variable to hold
 
@@ -29,7 +29,7 @@ with open(f"../{txt_input_path}/{txt_file}", "r") as f:
 
 # Reading in all the data and matching up with knapsack length
 for file in csv_files: # Loop checks data for each type of solution
-    with open(f"../{csv_result_path}/{file}", newline="") as f:
+    with open(f"../{csv_result_path}/output_{file}", newline="") as f:
         reader = csv.DictReader(f)
         seen = set()
 
